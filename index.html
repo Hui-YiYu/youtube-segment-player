@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>YouTube 分段播放器</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #000;
+    }
+
+    #player-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+
+    #player {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #message {
+      display: none;
+      box-sizing: border-box;
+      padding: 16px;
+      color: #fff;
+      background: #111;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Noto Sans TC", sans-serif;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="player-wrap">
+    <div id="player"></div>
+  </div>
+  <div id="message"></div>
+
+  <script>
+    // ===== 固定設定 =====
+    const VIDEO_ID = 'b3nK1Ol88e0';
+    const SEGMENTS = [
+      { start: 529, end: 610 },
+      { start: 1075, end: 1206 }
+    ];
+
+    let player;
+    let currentSegmentIndex = 0;
+    let watcher = null;
+    let finished = false;
+
+    // GitHub Pages 上會得到例如：
+    // https://hui-yiyu.github.io
+    const PAGE_ORIGIN =
+      window.location.origin && window.location.origin.startsWith('http')
+        ? window.location.origin
+        : '';
+
+    // 若此播放器被 Notion / 其他網站嵌入，盡量把外層來源提供給 YouTube。
+    // 若瀏覽器沒有提供 referrer，就退回目前 GitHub Pages 網址。
+    const WIDGET_REFERRER =
+      document.referrer && /^https?:\/\//i.test(document.referrer)
+        ? document.referrer
+        : window.location.href;
+
+    function showMessage(text) {
+      const box = document.getElementById('message');
+      box.textContent = text;
+      box.style.display = 'block';
+    }
+
+    // 直接用 file:// 開啟時，YouTube 可能因缺少 HTTP Referer 而回報 153。
+    if (window.location.protocol === 'file:') {
+      showMessage(
+        '請不要直接雙擊這個 HTML 檔測試。請先放到 GitHub Pages，再用 https:// 網址開啟。'
+      );
+    }
+
+    // 載入 YouTube IFrame API
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    tag.referrerPolicy = 'strict-origin-when-cross-origin';
+    document.head.appendChild(tag);
+
+    function onYouTubeIframeAPIReady() {
+      const playerVars = {
+        start: SEGMENTS[0].start,
+        playsinline: 1,
+        controls: 1,
+        rel: 0,
+        enablejsapi: 1,
+        widget_referrer: WIDGET_REFERRER
+      };
+
+      // 官方建議使用 IFrame API 時指定 origin。
+      // 只有在真正的 http/https 網頁環境才加入。
+      if (PAGE_ORIGIN) {
+        playerVars.origin = PAGE_ORIGIN;
+      }
+
+      player = new YT.Player('player', {
+        videoId: VIDEO_ID,
+        playerVars,
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange,
+          onError: onPlayerError
+        }
+      });
+    }
+
+    function onPlayerReady() {
+      // 再補一層 iframe referrer policy。
+      // 這不能取代正常 HTTP Referer，但可避免過度限制 referrer。
+      try {
+        const iframe = player.getIframe();
+        iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        iframe.setAttribute('allow',
+          'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+        );
+        iframe.setAttribute('allowfullscreen', '');
+      } catch (e) {}
+
+      // 定位到第一段開頭，但不強迫自動播放。
+      player.seekTo(SEGMENTS[0].start, true);
+
+      if (!watcher) {
+        watcher = setInterval(checkTime, 200);
+      }
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data !== YT.PlayerState.PLAYING) return;
+
+      const t = player.getCurrentTime();
+
+      // 若使用者手動拖回第一段，就重新啟用完整播放流程。
+      if (t >= SEGMENTS[0].start - 3 && t < SEGMENTS[0].end) {
+        currentSegmentIndex = 0;
+        finished = false;
+        return;
+      }
+
+      // 若使用者直接拖到第二段，從第二段繼續判斷。
+      if (t >= SEGMENTS[1].start - 3 && t < SEGMENTS[1].end) {
+        currentSegmentIndex = 1;
+        finished = false;
+      }
+    }
+
+    function checkTime() {
+      if (
+        !player ||
+        typeof player.getCurrentTime !== 'function' ||
+        finished
+      ) {
+        return;
+      }
+
+      const segment = SEGMENTS[currentSegmentIndex];
+      const time = player.getCurrentTime();
+
+      if (time < segment.end) return;
+
+      // 還有下一段：跳到下一段並繼續播放
+      if (currentSegmentIndex < SEGMENTS.length - 1) {
+        currentSegmentIndex += 1;
+        const next = SEGMENTS[currentSegmentIndex];
+
+        player.seekTo(next.start, true);
+
+        // 某些瀏覽器在 seek 後會短暫停住，因此補一次 playVideo。
+        // 因為使用者先前已手動開始播放，通常不會被視為首次自動播放。
+        player.playVideo();
+        return;
+      }
+
+      // 最後一段播完：停在結束位置附近並暫停
+      finished = true;
+      player.pauseVideo();
+      player.seekTo(segment.end, true);
+    }
+
+    function onPlayerError(event) {
+      const code = event.data;
+
+      if (code === 153) {
+        showMessage(
+          'YouTube 錯誤 153：播放器沒有收到可接受的來源識別。' +
+          '請確認你是從 GitHub Pages 的 https:// 網址開啟，而不是直接開啟 HTML 檔或 GitHub 原始檔預覽。'
+        );
+      } else if (code === 101 || code === 150) {
+        showMessage('這支 YouTube 影片目前不允許在外部網站嵌入播放。');
+      } else if (code === 100) {
+        showMessage('找不到這支 YouTube 影片，可能已刪除或設為私人。');
+      } else {
+        showMessage('YouTube 播放器發生錯誤，代碼：' + code);
+      }
+    }
+  </script>
+</body>
+</html>
