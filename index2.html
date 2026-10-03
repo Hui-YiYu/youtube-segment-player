@@ -135,10 +135,11 @@
     {symbol:'⑭',length:'3 尺',quantity:'1 根',layer:'第三層',description:'與下一層⑨平行的短斜木，往內收。',pieces:[{id:'q14',x1:299,y1:295,x2:341,y2:426,w:31}]},
     {symbol:'⑮',length:'3 尺',quantity:'1 根',layer:'第三層完成',description:'與下一層⑩平行的短斜木，往內收並完成三層。',pieces:[{id:'q15',x1:295,y1:420,x2:364.5,y2:300,w:31}]}
   ];
-  // 息壇：原圖裁切起點 (1350,140)。後一支木頭仍依步序顯示在上一支上方。
+  // 息壇：原圖裁切起點 (1350,140)。①、②各一次放兩根；③～⑭每步一根／一把。
+  // 後一支木頭仍依步序顯示在上一支上方。
   const xiSteps = [
-    {symbol:'①',length:'8 尺',quantity:'2 根',layer:'第一層',description:'依示意圖從南邊至北邊，以不損傷壇城的方式橫放兩根木頭。',pieces:[{id:'x1a',x1:45,y1:152,x2:646,y2:152,w:48},{id:'x1b',x1:45,y1:458,x2:646,y2:458,w:48}]},
-    {symbol:'②',length:'7 尺',quantity:'2 根',layer:'第一層',description:'依示意圖從東邊至西邊，在①之上放置兩根木頭。',pieces:[{id:'x2a',x1:205,y1:45,x2:205,y2:607,w:48},{id:'x2b',x1:455,y1:45,x2:455,y2:607,w:48}]},
+    {symbol:'①',length:'8 尺',quantity:'2 根',layer:'第一層',description:'從南邊至北邊，以不損傷壇城的方式橫放兩根 8 尺木。',pieces:[{id:'x1a',x1:45,y1:152,x2:646,y2:152,w:48},{id:'x1b',x1:45,y1:458,x2:646,y2:458,w:48}]},
+    {symbol:'②',length:'7 尺',quantity:'2 根',layer:'第一層',description:'從東邊至西邊，在①的兩根木頭之上放置兩根 7 尺木。',pieces:[{id:'x2a',x1:205,y1:45,x2:205,y2:607,w:48},{id:'x2b',x1:455,y1:45,x2:455,y2:607,w:48}]},
     {symbol:'③',length:'6 尺',quantity:'1 根',layer:'第一層',description:'依原圖跨置於東木及南木之上的第一根斜木。',pieces:[{id:'x3',x1:126,y1:215,x2:385,y2:553,w:40}]},
     {symbol:'④',length:'6 尺',quantity:'1 根',layer:'第一層',description:'依原圖跨置於南木及西木之上的第二根斜木。',pieces:[{id:'x4',x1:126,y1:401,x2:397,y2:66,w:40}]},
     {symbol:'⑤',length:'6 尺',quantity:'1 根',layer:'第一層',description:'依原圖跨置於西木及北木之上的第三根斜木。',pieces:[{id:'x5',x1:288,y1:67,x2:552,y2:403,w:40}]},
@@ -193,7 +194,7 @@
     field.setAttribute('fill',altar.background);
     [$('northCompass'),$('southCompass'),$('eastCompass'),$('westCompass')].forEach((node,i)=>node.textContent=altar.directions[i]);
     $('svgTitle').textContent=`${altar.name}木頭擺放俯視圖`;
-    $('svgDesc').textContent=`上${altar.directions[0]}下${altar.directions[1]}，左${altar.directions[2]}右${altar.directions[3]}；木頭按步驟逐組疊放。`;
+    $('svgDesc').textContent=`上${altar.directions[0]}下${altar.directions[1]}，左${altar.directions[2]}右${altar.directions[3]}；木頭按步驟依序疊放。`;
     $('stage').setAttribute('aria-label',`${altar.name}俯視動畫`);
     $('altarBadge').textContent=`${altar.name}・${altar.orientation}`;
     $('altarBadge').style.background=altar.background==='#fff'?'#eee6d5':altar.background;
@@ -202,7 +203,7 @@
     steps.slice(0,current).forEach((step,index)=>step.pieces.forEach(piece=>logs.appendChild(drawPiece(piece,fresh && index===current-1))));
     if(fresh && current) highlightTimer=setTimeout(()=>{logs.querySelectorAll('.fresh').forEach(node=>node.classList.remove('fresh'));},HIGHLIGHT_MS);
     const step=steps[current-1];
-    $('heading').textContent=step?`第 ${current} 步`:'準備開始';
+    $('heading').textContent=step?`第 ${current} 步・${step.symbol}`:'準備開始';
     $('counter').textContent=`${current} / ${steps.length} 步`;
     $('length').textContent=step?.length??'—';
     $('quantity').textContent=step?.quantity??'—';
