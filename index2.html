@@ -57,13 +57,19 @@
   </nav>
   <div class="layout">
     <section class="stage" id="stage" aria-label="盛壇俯視動畫">
-      <svg id="diagram" viewBox="0 0 700 700" role="img" aria-labelledby="svgTitle svgDesc">
+      <svg id="diagram" viewBox="0 -160 700 860" role="img" aria-labelledby="svgTitle svgDesc">
         <title id="svgTitle">盛壇木頭擺放俯視圖</title>
         <desc id="svgDesc">上南下北，左東右西；木頭按步驟逐組疊放。</desc>
         <defs>
-          <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b98753"/><stop offset=".28" stop-color="#986035"/><stop offset=".64" stop-color="#673b20"/><stop offset="1" stop-color="#a97142"/></linearGradient>
           <pattern id="grain" width="17" height="17" patternUnits="userSpaceOnUse"><path d="M1 2h15M3 9h12M0 15h14" stroke="#3f210f" stroke-opacity=".17" stroke-width="2"/></pattern>
         </defs>
+        <g id="dharmaSeat" aria-label="法座" fill="none" stroke="#24201b" stroke-width="7">
+          <rect x="255" y="-148" width="190" height="112"/>
+          <ellipse cx="350" cy="-111" rx="39" ry="25"/>
+          <rect x="278" y="-75" width="144" height="24"/>
+          <rect x="232" y="-28" width="236" height="12"/>
+          <text x="490" y="-72" fill="#24201b" stroke="none" font-size="28" font-weight="800">法座</text>
+        </g>
         <rect id="altarField" x="88" y="42" width="566" height="560" fill="#ffed00" stroke="#c23b21" stroke-width="9"/>
         <g id="logs"></g>
         <g font-size="28" font-weight="800" text-anchor="middle" fill="#4a3824" aria-hidden="true">
@@ -120,14 +126,14 @@
     {symbol:'⑤',length:'6 尺',quantity:'1 根',layer:'第一層完成',description:'左下至左上的外側斜木，完成第一層五根。',pieces:[{id:'q5',x1:68,y1:448,x2:290,y2:80,w:43}]},
     {symbol:'⑥',length:'6 尺',quantity:'1 根',layer:'第二層',description:'第二圈橫木，位於外圈斜木之上。',pieces:[{id:'q6',x1:113,y1:238,x2:546,y2:238,w:40}]},
     {symbol:'⑦',length:'5 尺',quantity:'1 根',layer:'第二層',description:'第二圈右上斜木。',pieces:[{id:'q7',x1:378,y1:207,x2:555,y2:421,w:37}]},
-    {symbol:'⑧',length:'5 尺',quantity:'1 根',layer:'第二層',description:'第二圈右下反向斜木。',pieces:[{id:'q8',x1:309,y1:520,x2:488,y2:335,w:37}]},
-    {symbol:'⑨',length:'5 尺',quantity:'1 根',layer:'第二層',description:'第二圈左中至下方斜木。',pieces:[{id:'q9',x1:225,y1:294,x2:309,y2:520,w:37}]},
+    {symbol:'⑧',length:'5 尺',quantity:'1 根',layer:'第二層',description:'第二圈右下反向斜木；下端搭在外圈左下木，上端搭在⑦。',pieces:[{id:'q8',x1:263,y1:520,x2:488,y2:335,w:37}]},
+    {symbol:'⑨',length:'5 尺',quantity:'1 根',layer:'第二層',description:'第二圈左中至下方斜木；上端搭在⑥，下端搭在⑧。',pieces:[{id:'q9',x1:225,y1:258,x2:309,y2:520,w:37}]},
     {symbol:'⑩',length:'5 尺',quantity:'1 根',layer:'第二層完成',description:'第二圈左下至左上斜木，完成第二層五根。',pieces:[{id:'q10',x1:156,y1:430,x2:295,y2:190,w:37}]},
-    {symbol:'⑪',length:'5 尺',quantity:'1 根',layer:'第三層',description:'內圈橫木，位於前兩層上。',pieces:[{id:'q11',x1:226,y1:292,x2:499,y2:292,w:35}]},
-    {symbol:'⑫',length:'3 尺',quantity:'1 根',layer:'第三層',description:'內圈右上斜木。',pieces:[{id:'q12',x1:355,y1:239,x2:488,y2:396,w:31}]},
-    {symbol:'⑬',length:'3 尺',quantity:'1 根',layer:'第三層',description:'內圈右下反向斜木。',pieces:[{id:'q13',x1:308,y1:491,x2:473,y2:326,w:31}]},
-    {symbol:'⑭',length:'3 尺',quantity:'1 根',layer:'第三層',description:'內圈左上至下方斜木。',pieces:[{id:'q14',x1:225,y1:294,x2:365,y2:463,w:31}]},
-    {symbol:'⑮',length:'3 尺',quantity:'1 根',layer:'第三層完成',description:'內圈左下至上方斜木，完成三層。',pieces:[{id:'q15',x1:200,y1:448,x2:355,y2:239,w:31}]}
+    {symbol:'⑪',length:'5 尺',quantity:'1 根',layer:'第三層',description:'縮短的內圈橫木，與⑥平行並往內收。',pieces:[{id:'q11',x1:245,y1:292,x2:475,y2:292,w:35}]},
+    {symbol:'⑫',length:'3 尺',quantity:'1 根',layer:'第三層',description:'與下一層⑦平行的短斜木，往內收。',pieces:[{id:'q12',x1:345,y1:277,x2:433.5,y2:384,w:31}]},
+    {symbol:'⑬',length:'3 尺',quantity:'1 根',layer:'第三層',description:'與下一層⑧平行的短斜木，往內收。',pieces:[{id:'q13',x1:304,y1:436,x2:416.5,y2:343.5,w:31}]},
+    {symbol:'⑭',length:'3 尺',quantity:'1 根',layer:'第三層',description:'與下一層⑨平行的短斜木，往內收。',pieces:[{id:'q14',x1:299,y1:295,x2:341,y2:426,w:31}]},
+    {symbol:'⑮',length:'3 尺',quantity:'1 根',layer:'第三層完成',description:'與下一層⑩平行的短斜木，往內收並完成三層。',pieces:[{id:'q15',x1:295,y1:420,x2:364.5,y2:300,w:31}]}
   ];
   // 息壇：原圖裁切起點 (1350,140)。後一支木頭仍依步序顯示在上一支上方。
   const xiSteps = [
@@ -141,10 +147,10 @@
     {symbol:'⑧',length:'3 尺',quantity:'1 根',layer:'第二層',description:'在東南角木與西南角木上跨置短直木。',pieces:[{id:'x8',x1:283,y1:218,x2:283,y2:431,w:34}]},
     {symbol:'⑨',length:'3 尺',quantity:'1 根',layer:'第二層',description:'在西南角木與西北角木上跨置短橫木。',pieces:[{id:'x9',x1:211,y1:215,x2:467,y2:215,w:34}]},
     {symbol:'⑩',length:'3 尺',quantity:'1 根',layer:'第二層',description:'在西北角木與東北角木上跨置短直木。',pieces:[{id:'x10',x1:406,y1:199,x2:406,y2:431,w:34}]},
-    {symbol:'⑪',length:'細柴',quantity:'1 把',layer:'第二層',description:'在③的位置放置第一把細柴。',pieces:[{id:'x11',type:'bundle',x1:274,y1:348,x2:350,y2:415,w:20}]},
-    {symbol:'⑫',length:'細柴',quantity:'1 把',layer:'第二層',description:'在④的位置放置第二把細柴。',pieces:[{id:'x12',type:'bundle',x1:239,y1:371,x2:316,y2:268,w:20}]},
-    {symbol:'⑬',length:'細柴',quantity:'1 把',layer:'第二層',description:'在⑤的位置放置第三把細柴。',pieces:[{id:'x13',type:'bundle',x1:261,y1:239,x2:365,y2:313,w:20}]},
-    {symbol:'⑭',length:'細柴',quantity:'1 把',layer:'第二層完成',description:'在⑥的位置放置第四把細柴，完成兩層。',pieces:[{id:'x14',type:'bundle',x1:302,y1:390,x2:408,y2:271,w:20}]}
+    {symbol:'⑪',length:'細柴',quantity:'1 把',layer:'第二層',description:'沿③的方向平行內縮，搭在⑧與⑦之上。',pieces:[{id:'x11',type:'bundle',x1:296,y1:309,x2:352.98,y2:383.36,w:20}]},
+    {symbol:'⑫',length:'細柴',quantity:'1 把',layer:'第二層',description:'沿④的方向平行內縮，搭在⑧與⑨之上。',pieces:[{id:'x12',type:'bundle',x1:296,y1:315,x2:355.62,y2:241.3,w:20}]},
+    {symbol:'⑬',length:'細柴',quantity:'1 把',layer:'第二層',description:'沿⑤的方向平行內縮，搭在⑨與⑩之上。',pieces:[{id:'x13',type:'bundle',x1:332,y1:241,x2:390.08,y2:314.92,w:20}]},
+    {symbol:'⑭',length:'細柴',quantity:'1 把',layer:'第二層完成',description:'沿⑥的方向平行內縮，搭在⑦與⑩之上，完成兩層。',pieces:[{id:'x14',type:'bundle',x1:315,y1:385,x2:389.8,y2:309.32,w:20}]}
   ];
   const altars = {
     sheng:{name:'盛壇',orientation:'坐南朝北',background:'#ffed00',field:[88,42,566,560],directions:['南','北','東','西'],layerNote:'每層 4 件，共三層。',steps:shengSteps},
@@ -170,7 +176,7 @@
       }
     } else {
       g.appendChild(el('line',{x1,y1,x2,y2,stroke:'#153b5a','stroke-width':w+5,'stroke-linecap':'round'}));
-      g.appendChild(el('line',{x1,y1,x2,y2,stroke:'url(#wood)','stroke-width':w,'stroke-linecap':'round'}));
+      g.appendChild(el('line',{x1,y1,x2,y2,stroke:'#93613a','stroke-width':w,'stroke-linecap':'round'}));
       // 兩道微細木紋，不改變木頭端點及遮蓋範圍。
       const shift=(x1===x2)?10:0, rise=(y1===y2)?9:0;
       g.appendChild(el('line',{x1:x1+shift,y1:y1+rise,x2:x2+shift,y2:y2+rise,stroke:'#d9aa70','stroke-width':2,'stroke-opacity':'.48','stroke-linecap':'round'}));
