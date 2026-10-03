@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>壇城柴薪擺放教學</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, "Noto Sans TC", sans-serif; background:#f7f3e8; color:#2c251b; }
+    * { box-sizing:border-box; }
+    body { margin:0; }
+    main { max-width:1200px; margin:auto; padding:24px; }
+    header { display:flex; justify-content:space-between; align-items:end; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+    h1 { font-size:clamp(1.4rem,3vw,2.1rem); margin:0; }
+    .subtitle { margin:5px 0 0; color:#6d604e; }
+    .badge { background:#e8b72b; padding:7px 13px; border-radius:99px; font-weight:700; }
+    .tabs { display:flex; gap:9px; margin:0 0 16px; flex-wrap:wrap; }
+    .tabs button { min-width:110px; background:#fffdf8; border-color:#d1c4ab; }
+    .tabs button[aria-selected="true"] { background:#50391a; color:#fff; border-color:#50391a; }
+    .layout { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(280px,0.8fr); gap:18px; }
+    .stage,.panel { background:#fffdf8; border:1px solid #d8cbb4; border-radius:16px; box-shadow:0 8px 28px #473c2712; }
+    .stage { padding:12px; }
+    svg { display:block; width:100%; height:auto; max-height:76vh; }
+    .panel { padding:22px; display:flex; flex-direction:column; gap:18px; }
+    .eyebrow { font-size:.8rem; letter-spacing:.12em; font-weight:800; color:#80641c; }
+    h2 { font-size:1.45rem; margin:3px 0 8px; }
+    .step-count { font-size:1rem; color:#6d604e; }
+    .detail { border-top:1px solid #e9dec9; padding-top:12px; display:grid; grid-template-columns:90px 1fr; gap:8px; }
+    .detail dt { color:#776a59; }
+    .detail dd { margin:0; font-weight:650; }
+    .description { min-height:3em; line-height:1.6; }
+    .controls { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; }
+    button { border:1px solid #8c6926; background:#fff6df; color:#352811; border-radius:10px; padding:12px 8px; font:inherit; font-weight:700; cursor:pointer; }
+    button:hover:not(:disabled) { background:#f3dd9e; }
+    button:disabled { opacity:.45; cursor:default; }
+    button.primary { background:#9b631a; color:#fff; }
+    button.primary:hover:not(:disabled) { background:#78490d; }
+    #restart { grid-column:1 / -1; }
+    .progress { display:flex; gap:5px; }
+    .pip { flex:1; height:8px; border-radius:5px; background:#e5decf; }
+    .pip.done { background:#bb862e; }
+    .note { margin:0; font-size:.86rem; line-height:1.55; color:#695c4a; }
+    .wood-outline { fill:none; stroke:#153b5a; stroke-width:2.5; }
+    .wood-main { fill:none; stroke:url(#wood); }
+    .wood-grain { fill:none; stroke:#4e2914; stroke-opacity:.25; stroke-width:3; stroke-linecap:round; }
+    .fresh { animation:glow 1.5s ease-out both; }
+    @keyframes glow { 0%,45% { filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 7px #ff7300); opacity:.8; } 100% { filter:none; opacity:1; } }
+    @media (max-width:800px) { main { padding:12px; } .layout { grid-template-columns:1fr; } .panel { padding:17px; } svg { max-height:none; } }
+  </style>
+</head>
+<body>
+<main>
+  <header><div><h1>壇城柴薪擺放教學</h1><p class="subtitle">依原始示意圖描摹的俯視順序動畫</p></div><span class="badge" id="altarBadge">盛壇・坐南朝北</span></header>
+  <nav class="tabs" role="tablist" aria-label="選擇壇城">
+    <button type="button" role="tab" aria-selected="true" data-altar="sheng">盛壇</button>
+    <button type="button" role="tab" aria-selected="false" data-altar="quan">權壇</button>
+    <button type="button" role="tab" aria-selected="false" data-altar="xi">息壇</button>
+  </nav>
+  <div class="layout">
+    <section class="stage" id="stage" aria-label="盛壇俯視動畫">
+      <svg id="diagram" viewBox="0 0 700 700" role="img" aria-labelledby="svgTitle svgDesc">
+        <title id="svgTitle">盛壇木頭擺放俯視圖</title>
+        <desc id="svgDesc">上南下北，左東右西；木頭按步驟逐組疊放。</desc>
+        <defs>
+          <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b98753"/><stop offset=".28" stop-color="#986035"/><stop offset=".64" stop-color="#673b20"/><stop offset="1" stop-color="#a97142"/></linearGradient>
+          <pattern id="grain" width="17" height="17" patternUnits="userSpaceOnUse"><path d="M1 2h15M3 9h12M0 15h14" stroke="#3f210f" stroke-opacity=".17" stroke-width="2"/></pattern>
+        </defs>
+        <rect id="altarField" x="88" y="42" width="566" height="560" fill="#ffed00" stroke="#c23b21" stroke-width="9"/>
+        <g id="logs"></g>
+        <g font-size="28" font-weight="800" text-anchor="middle" fill="#4a3824" aria-hidden="true">
+          <text id="northCompass" x="350" y="28">南</text><text id="southCompass" x="350" y="664">北</text>
+          <text id="eastCompass" x="22" y="335">東</text><text id="westCompass" x="682" y="335">西</text>
+        </g>
+      </svg>
+    </section>
+    <aside class="panel" aria-live="polite">
+      <div><div class="eyebrow">擺放進度</div><h2 id="heading">準備開始</h2><div class="step-count" id="counter">0 / 6 步</div></div>
+      <div class="progress" id="progress" aria-hidden="true"></div>
+      <dl class="detail"><dt>木頭長度</dt><dd id="length">—</dd><dt>本步數量</dt><dd id="quantity">—</dd><dt>所在層次</dt><dd id="layer">—</dd></dl>
+      <p class="description" id="description">按「下一步」放置第一組木頭。</p>
+      <div class="controls"><button id="previous">上一步</button><button id="next" class="primary">下一步</button><button id="play">自動播放</button><button id="pause">暫停</button><button id="restart">重新開始</button></div>
+      <p class="note" id="note">圖中只重建柴薪木頭與示意圖的色塊／方位，沒有重畫壇城圖案。後放的木頭顯示在較上方。自動播放預設每步 1.5 秒。</p>
+    </aside>
+  </div>
+</main>
+<script>
+  'use strict';
+  // 修改此值即可調整自動播放速度（毫秒）。
+  const STEP_INTERVAL_MS = 1500;
+  const HIGHLIGHT_MS = 1500;
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  // 座標直接描摹原圖左側盛壇區；原圖的 y 座標減去 150。
+  // 每筆端點是木頭軸線兩端的圓帽中心。順序也就是 SVG 視覺疊放順序。
+  const shengSteps = [
+    {symbol:'①', length:'8 尺', quantity:'2 根', layer:'第一層', description:'原圖兩根外側橫木，分別位於南側與北側。', pieces:[
+      {id:'1a', x1:69,y1:146,x2:644,y2:146,w:47},
+      {id:'1b', x1:68,y1:500,x2:643,y2:500,w:47}]},
+    {symbol:'②', length:'7 尺', quantity:'2 根', layer:'第一層完成', description:'兩根外側南北向木頭，跨在第一步兩根橫木之上。', pieces:[
+      {id:'2a', x1:187,y1:46,x2:187,y2:619,w:50},
+      {id:'2b', x1:579,y1:45,x2:579,y2:619,w:50}]},
+    {symbol:'③', length:'7 尺', quantity:'2 根', layer:'第二層', description:'兩根內側橫木，位於外側直木之上。', pieces:[
+      {id:'3a', x1:157,y1:211,x2:587,y2:211,w:39},
+      {id:'3b', x1:156,y1:436,x2:586,y2:436,w:39}]},
+    {symbol:'④', length:'7 尺', quantity:'2 根', layer:'第二層完成', description:'兩根內側直木，跨在第三步的兩根橫木之上。', pieces:[
+      {id:'4a', x1:280,y1:117,x2:280,y2:545,w:40},
+      {id:'4b', x1:500,y1:117,x2:500,y2:545,w:40}]},
+    {symbol:'⑤', length:'6 尺', quantity:'2 根', layer:'第三層', description:'兩根短橫木，跨在第四步的兩根直木之上。', pieces:[
+      {id:'5a', x1:264,y1:268,x2:501,y2:268,w:36},
+      {id:'5b', x1:264,y1:371,x2:501,y2:371,w:36}]},
+    {symbol:'⑥', length:'細木頭', quantity:'2 把', layer:'第三層完成', description:'兩把細木頭，分別位於短橫木之上，完成三層。', pieces:[
+      {id:'6a', type:'bundle', x1:355,y1:231,x2:355,y2:398,w:22},
+      {id:'6b', type:'bundle', x1:435,y1:231,x2:435,y2:398,w:22}]}
+  ];
+  // 權壇：原圖裁切起點 (690,140)，下列端點為原圖位置減去此起點。
+  // 每支斜木各自描摹；沒有使用鏡像或對稱公式。
+  const quanSteps = [
+    {symbol:'①',length:'8 尺',quantity:'1 根',layer:'第一層',description:'橫放最外側長木，原圖由北側延伸至南側。',pieces:[{id:'q1',x1:45,y1:150,x2:618,y2:150,w:48}]},
+    {symbol:'②',length:'6 尺',quantity:'1 根',layer:'第一層',description:'右上至右下的外側斜木，跨在①之上。',pieces:[{id:'q2',x1:395,y1:85,x2:640,y2:440,w:43}]},
+    {symbol:'③',length:'6 尺',quantity:'1 根',layer:'第一層',description:'右下至中央下緣的外側斜木。',pieces:[{id:'q3',x1:619,y1:312,x2:355,y2:628,w:43}]},
+    {symbol:'④',length:'6 尺',quantity:'1 根',layer:'第一層',description:'左中至中央下緣的外側斜木。',pieces:[{id:'q4',x1:46,y1:313,x2:329,y2:637,w:43}]},
+    {symbol:'⑤',length:'6 尺',quantity:'1 根',layer:'第一層完成',description:'左下至左上的外側斜木，完成第一層五根。',pieces:[{id:'q5',x1:68,y1:448,x2:290,y2:80,w:43}]},
+    {symbol:'⑥',length:'6 尺',quantity:'1 根',layer:'第二層',description:'第二圈橫木，位於外圈斜木之上。',pieces:[{id:'q6',x1:113,y1:238,x2:546,y2:238,w:40}]},
+    {symbol:'⑦',length:'5 尺',quantity:'1 根',layer:'第二層',description:'第二圈右上斜木。',pieces:[{id:'q7',x1:378,y1:207,x2:555,y2:421,w:37}]},
+    {symbol:'⑧',length:'5 尺',quantity:'1 根',layer:'第二層',description:'第二圈右下反向斜木。',pieces:[{id:'q8',x1:309,y1:520,x2:488,y2:335,w:37}]},
+    {symbol:'⑨',length:'5 尺',quantity:'1 根',layer:'第二層',description:'第二圈左中至下方斜木。',pieces:[{id:'q9',x1:225,y1:294,x2:309,y2:520,w:37}]},
+    {symbol:'⑩',length:'5 尺',quantity:'1 根',layer:'第二層完成',description:'第二圈左下至左上斜木，完成第二層五根。',pieces:[{id:'q10',x1:156,y1:430,x2:295,y2:190,w:37}]},
+    {symbol:'⑪',length:'5 尺',quantity:'1 根',layer:'第三層',description:'內圈橫木，位於前兩層上。',pieces:[{id:'q11',x1:226,y1:292,x2:499,y2:292,w:35}]},
+    {symbol:'⑫',length:'3 尺',quantity:'1 根',layer:'第三層',description:'內圈右上斜木。',pieces:[{id:'q12',x1:355,y1:239,x2:488,y2:396,w:31}]},
+    {symbol:'⑬',length:'3 尺',quantity:'1 根',layer:'第三層',description:'內圈右下反向斜木。',pieces:[{id:'q13',x1:308,y1:491,x2:473,y2:326,w:31}]},
+    {symbol:'⑭',length:'3 尺',quantity:'1 根',layer:'第三層',description:'內圈左上至下方斜木。',pieces:[{id:'q14',x1:225,y1:294,x2:365,y2:463,w:31}]},
+    {symbol:'⑮',length:'3 尺',quantity:'1 根',layer:'第三層完成',description:'內圈左下至上方斜木，完成三層。',pieces:[{id:'q15',x1:200,y1:448,x2:355,y2:239,w:31}]}
+  ];
+  // 息壇：原圖裁切起點 (1350,140)。後一支木頭仍依步序顯示在上一支上方。
+  const xiSteps = [
+    {symbol:'①',length:'8 尺',quantity:'2 根',layer:'第一層',description:'依示意圖從南邊至北邊，以不損傷壇城的方式橫放兩根木頭。',pieces:[{id:'x1a',x1:45,y1:152,x2:646,y2:152,w:48},{id:'x1b',x1:45,y1:458,x2:646,y2:458,w:48}]},
+    {symbol:'②',length:'7 尺',quantity:'2 根',layer:'第一層',description:'依示意圖從東邊至西邊，在①之上放置兩根木頭。',pieces:[{id:'x2a',x1:205,y1:45,x2:205,y2:607,w:48},{id:'x2b',x1:455,y1:45,x2:455,y2:607,w:48}]},
+    {symbol:'③',length:'6 尺',quantity:'1 根',layer:'第一層',description:'依原圖跨置於東木及南木之上的第一根斜木。',pieces:[{id:'x3',x1:126,y1:215,x2:385,y2:553,w:40}]},
+    {symbol:'④',length:'6 尺',quantity:'1 根',layer:'第一層',description:'依原圖跨置於南木及西木之上的第二根斜木。',pieces:[{id:'x4',x1:126,y1:401,x2:397,y2:66,w:40}]},
+    {symbol:'⑤',length:'6 尺',quantity:'1 根',layer:'第一層',description:'依原圖跨置於西木及北木之上的第三根斜木。',pieces:[{id:'x5',x1:288,y1:67,x2:552,y2:403,w:40}]},
+    {symbol:'⑥',length:'6 尺',quantity:'1 根',layer:'第一層完成',description:'依原圖跨置於北木及東木之上的第四根斜木。',pieces:[{id:'x6',x1:214,y1:560,x2:554,y2:216,w:40}]},
+    {symbol:'⑦',length:'3 尺',quantity:'1 根',layer:'第二層',description:'在東北角木與東南角木上跨置短橫木。',pieces:[{id:'x7',x1:207,y1:410,x2:461,y2:410,w:34}]},
+    {symbol:'⑧',length:'3 尺',quantity:'1 根',layer:'第二層',description:'在東南角木與西南角木上跨置短直木。',pieces:[{id:'x8',x1:283,y1:218,x2:283,y2:431,w:34}]},
+    {symbol:'⑨',length:'3 尺',quantity:'1 根',layer:'第二層',description:'在西南角木與西北角木上跨置短橫木。',pieces:[{id:'x9',x1:211,y1:215,x2:467,y2:215,w:34}]},
+    {symbol:'⑩',length:'3 尺',quantity:'1 根',layer:'第二層',description:'在西北角木與東北角木上跨置短直木。',pieces:[{id:'x10',x1:406,y1:199,x2:406,y2:431,w:34}]},
+    {symbol:'⑪',length:'細柴',quantity:'1 把',layer:'第二層',description:'在③的位置放置第一把細柴。',pieces:[{id:'x11',type:'bundle',x1:274,y1:348,x2:350,y2:415,w:20}]},
+    {symbol:'⑫',length:'細柴',quantity:'1 把',layer:'第二層',description:'在④的位置放置第二把細柴。',pieces:[{id:'x12',type:'bundle',x1:239,y1:371,x2:316,y2:268,w:20}]},
+    {symbol:'⑬',length:'細柴',quantity:'1 把',layer:'第二層',description:'在⑤的位置放置第三把細柴。',pieces:[{id:'x13',type:'bundle',x1:261,y1:239,x2:365,y2:313,w:20}]},
+    {symbol:'⑭',length:'細柴',quantity:'1 把',layer:'第二層完成',description:'在⑥的位置放置第四把細柴，完成兩層。',pieces:[{id:'x14',type:'bundle',x1:302,y1:390,x2:408,y2:271,w:20}]}
+  ];
+  const altars = {
+    sheng:{name:'盛壇',orientation:'坐南朝北',background:'#ffed00',field:[88,42,566,560],directions:['南','北','東','西'],layerNote:'每層 4 件，共三層。',steps:shengSteps},
+    quan:{name:'權壇',orientation:'坐東朝西',background:'#f00000',field:[40,50,565,560],directions:['東','西','北','南'],layerNote:'每層 5 根，共三層。',steps:quanSteps},
+    xi:{name:'息壇',orientation:'坐西朝東',background:'#fff',field:[35,50,580,555],directions:['西','東','南','北'],layerNote:'每層 8 件，共兩層。',steps:xiSteps}
+  };
+  const logs = document.getElementById('logs');
+  const $ = id => document.getElementById(id);
+  let active = 'sheng', steps = shengSteps, current = 0, timer = null, highlightTimer = null;
+  const savedPositions = {sheng:0,quan:0,xi:0};
+  function el(name, attrs={}) { const node=document.createElementNS(SVG_NS,name); for (const [key,value] of Object.entries(attrs)) node.setAttribute(key,String(value)); return node; }
+  function drawPiece(piece, fresh) {
+    const g=el('g',{'data-piece':piece.id, class:fresh?'fresh':''});
+    const {x1,y1,x2,y2,w}=piece;
+    if (piece.type === 'bundle') {
+      const distance=Math.hypot(x2-x1,y2-y1);
+      const normalX=-(y2-y1)/distance, normalY=(x2-x1)/distance;
+      g.appendChild(el('line',{x1,y1,x2,y2,stroke:'#153b5a','stroke-width':w+4,'stroke-opacity':'.65','stroke-linecap':'round',fill:'none'}));
+      for (let j=-2;j<=2;j++) {
+        const offset=j*5;
+        g.appendChild(el('line',{x1:x1+normalX*offset,y1:y1+normalY*offset,x2:x2+normalX*offset,y2:y2+normalY*offset,stroke:'#8c592e','stroke-width':4.5,'stroke-linecap':'round'}));
+        g.appendChild(el('line',{x1:x1+normalX*offset,y1:y1+normalY*offset,x2:x2+normalX*offset,y2:y2+normalY*offset,stroke:'#c99a61','stroke-width':1.2,'stroke-linecap':'round'}));
+      }
+    } else {
+      g.appendChild(el('line',{x1,y1,x2,y2,stroke:'#153b5a','stroke-width':w+5,'stroke-linecap':'round'}));
+      g.appendChild(el('line',{x1,y1,x2,y2,stroke:'url(#wood)','stroke-width':w,'stroke-linecap':'round'}));
+      // 兩道微細木紋，不改變木頭端點及遮蓋範圍。
+      const shift=(x1===x2)?10:0, rise=(y1===y2)?9:0;
+      g.appendChild(el('line',{x1:x1+shift,y1:y1+rise,x2:x2+shift,y2:y2+rise,stroke:'#d9aa70','stroke-width':2,'stroke-opacity':'.48','stroke-linecap':'round'}));
+    }
+    return g;
+  }
+  function stop() { if(timer){clearInterval(timer);timer=null;} $('play').disabled=current===steps.length; $('pause').disabled=true; }
+  function render(fresh=false) {
+    if(highlightTimer) clearTimeout(highlightTimer);
+    logs.replaceChildren();
+    const altar=altars[active];
+    const field=$('altarField');
+    ['x','y','width','height'].forEach((attr,i)=>field.setAttribute(attr,String(altar.field[i])));
+    field.setAttribute('fill',altar.background);
+    [$('northCompass'),$('southCompass'),$('eastCompass'),$('westCompass')].forEach((node,i)=>node.textContent=altar.directions[i]);
+    $('svgTitle').textContent=`${altar.name}木頭擺放俯視圖`;
+    $('svgDesc').textContent=`上${altar.directions[0]}下${altar.directions[1]}，左${altar.directions[2]}右${altar.directions[3]}；木頭按步驟逐組疊放。`;
+    $('stage').setAttribute('aria-label',`${altar.name}俯視動畫`);
+    $('altarBadge').textContent=`${altar.name}・${altar.orientation}`;
+    $('altarBadge').style.background=altar.background==='#fff'?'#eee6d5':altar.background;
+    $('altarBadge').style.color=altar.background==='#f00000'?'#fff':'#2c251b';
+    $('note').textContent=`${altar.layerNote} 後放的木頭顯示在較上方；自動播放每步預設 1.5 秒。壇城圖案未重畫。`;
+    steps.slice(0,current).forEach((step,index)=>step.pieces.forEach(piece=>logs.appendChild(drawPiece(piece,fresh && index===current-1))));
+    if(fresh && current) highlightTimer=setTimeout(()=>{logs.querySelectorAll('.fresh').forEach(node=>node.classList.remove('fresh'));},HIGHLIGHT_MS);
+    const step=steps[current-1];
+    $('heading').textContent=step?`第 ${current} 步`:'準備開始';
+    $('counter').textContent=`${current} / ${steps.length} 步`;
+    $('length').textContent=step?.length??'—';
+    $('quantity').textContent=step?.quantity??'—';
+    $('layer').textContent=step?.layer??'—';
+    $('description').textContent=step?.description??'按「下一步」放置第一組木頭。';
+    $('progress').replaceChildren(...steps.map((_,i)=>{const node=document.createElement('span');node.className='pip'+(i<current?' done':'');return node;}));
+    $('previous').disabled=current===0;
+    $('next').disabled=current===steps.length;
+    $('play').disabled=timer!==null||current===steps.length;
+    $('pause').disabled=timer===null;
+    if(current===steps.length) stop();
+  }
+  function next() { if(current<steps.length){current++;savedPositions[active]=current;render(true);} }
+  function selectAltar(name) {
+    if(!altars[name]||name===active)return;
+    stop();active=name;steps=altars[name].steps;current=savedPositions[name];
+    document.querySelectorAll('[data-altar]').forEach(tab=>tab.setAttribute('aria-selected',String(tab.dataset.altar===active)));
+    render();
+  }
+  document.querySelectorAll('[data-altar]').forEach(tab=>tab.addEventListener('click',()=>selectAltar(tab.dataset.altar)));
+  $('next').addEventListener('click',next);
+  $('previous').addEventListener('click',()=>{stop();if(current>0){current--;savedPositions[active]=current;render();}});
+  $('play').addEventListener('click',()=>{if(timer||current===steps.length)return;next();if(current<steps.length){timer=setInterval(next,STEP_INTERVAL_MS);$('play').disabled=true;$('pause').disabled=false;}});
+  $('pause').addEventListener('click',stop);
+  $('restart').addEventListener('click',()=>{stop();current=0;savedPositions[active]=0;render();});
+  render();
+</script>
+</body>
+</html>
